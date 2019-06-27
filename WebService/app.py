@@ -9,7 +9,7 @@ def hello():
     return "Hello"
 
 
-# By default, a route only answers to GET requests.
+# API for receiving event batches (1-10 events / batch)
 # Post Json format example,
 # {
 # 	"Data": [
@@ -62,10 +62,13 @@ def post_data():
 # http://127.0.0.1:5000/bycountry?hours=20
 @app.route('/bycountry', methods=['GET'])
 def get_bycountry():
+    hours = request.args.get('hours')
+    if not isinstance(hours, int):
+        return "Wrong Parameter"
+
     # Because the data is limited in 2016, assume the current timestamp is 11/1/2016
     # now = datetime.now()
     now = datetime(2016, 12, 1)
-    hours = request.args.get('hours')
     from_ts = now - timedelta(hours=hours)
     sql = """
     SELECT *
@@ -78,15 +81,18 @@ def get_bycountry():
     # db is SQLAlchemy object
     results = db.engine.execute(text(sql), {"from_ts": from_ts})
     ret_json = []
-    for _result in results:
-        content = {'player_id': _result[0],
-                   'country': _result[1],
-                   'event': _result[2],
-                   'session_id': _result[3],
-                   'ts': _result[4]
-                   }
-        ret_json.append(content)
-    return jsonify(ret_json)
+    if results:
+        for _result in results:
+            content = {'player_id': _result[0],
+                       'country': _result[1],
+                       'event': _result[2],
+                       'session_id': _result[3],
+                       'ts': _result[4]
+                       }
+            ret_json.append(content)
+        return jsonify(ret_json)
+    else:
+        return "No data"
 
 
 # API for fetching last 20 complete sessions for a given player
@@ -106,15 +112,18 @@ def get_last20():
     # db is SQLAlchemy object
     results = db.engine.execute(text(sql), {"player_id": player_id})
     ret_json = []
-    for _result in results:
-        content = {'player_id': _result[0],
-                   'country': _result[1],
-                   'event': _result[2],
-                   'session_id': _result[3],
-                   'ts': _result[4]
-                   }
-        ret_json.append(content)
-    return jsonify(ret_json)
+    if results:
+        for _result in results:
+            content = {'player_id': _result[0],
+                       'country': _result[1],
+                       'event': _result[2],
+                       'session_id': _result[3],
+                       'ts': _result[4]
+                       }
+            ret_json.append(content)
+        return jsonify(ret_json)
+    else:
+        return "No Data"
 
 
 if __name__ == '__main__':

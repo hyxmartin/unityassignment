@@ -2,11 +2,6 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from flask import Flask
 
-# setx DBUSER "postgres"
-# setx DBPASS "Temp@Win2000"
-# setx DBHOST "localhost"
-# setx DBNAME "postgres"
-
 database_uri = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
     dbuser=os.environ['DBUSER'],
     dbpass=os.environ['DBPASS'],
