@@ -9,6 +9,9 @@ CREATE TABLE session
   session_id VARCHAR (255) NOT NULL,
   ts TIMESTAMP  NOT NULL
 );
+
+CREATE INDEX idx_session_player_id ON session(player_id);
+CREATE INDEX indx_session_tx ON session(ts);
 --
 --INSERT INTO session (player_id, country, event, session_id, ts)
 --values
