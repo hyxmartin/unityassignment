@@ -1,16 +1,41 @@
 **unityassignment**
 ----
-  <_Additional information about your API call. Try to use verbs that match both request type (fetching vs modifying) and plurality (one vs multiple)._>
+  API for receiving event batches (1-10 events / batch).
 
 * **URL**
 
-  <_The URL Structure (path only, no root url)_>
+  /process-data
 
 * **Method:**
   
-  <_The request type_>
+  `POST` 
 
-  `GET` | `POST` | `DELETE` | `PUT`
+* **Data Params and sample request**
+
+  {
+	"Data": [
+		{"player_id": "d6313e1fb7d247a6a034e2aadc30ab3f", "country": "PK", "event": "start", "session_id": "674606b1-2270-4285-928f-eef4a6b90a60", "ts": "2016-11-22T20:40:50"},
+		{"player_id": "d6313e1fb7d247a6a034e2aadc30ab3f", "country": "PK", "event": "start", "session_id": "674606b1-2270-4285-928f-eef4a6b90a60", "ts": "2013-11-22T20:40:50"},
+		{"player_id": "d6313e1fb7d247a6a034e2aadc30ab3f", "country": "PK", "event": "start", "session_id": "674606b1-2270-4285-928f-eef4a6b90a60", "ts": "2013-11-22T20:40:50"}
+		],
+	"NumberRecord": 3
+}
+
+* **Success Response:**
+  
+  Session added. ["event"] session id=["session_id"]
+
+----
+  API for receiving event batches (1-10 events / batch).
+
+* **URL**
+
+  /process-data
+
+* **Method:**
+  
+
+  `POST` 
   
 *  **URL Params**
 
